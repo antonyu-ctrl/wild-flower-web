@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useCallback } from 'react';
+import { Suspense, useMemo, useCallback } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { Container } from '@/components/ui/Container';
 import Breadcrumb from '@/components/layout/Breadcrumb';
@@ -14,6 +14,14 @@ import { sortProducts } from '@/lib/filters';
 const ITEMS_PER_PAGE = 9;
 
 export default function SalePage() {
+  return (
+    <Suspense>
+      <SaleContent />
+    </Suspense>
+  );
+}
+
+function SaleContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
 

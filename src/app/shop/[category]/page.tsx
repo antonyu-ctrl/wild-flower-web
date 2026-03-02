@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo, useCallback } from 'react';
+import { Suspense, useState, useMemo, useCallback } from 'react';
 import { useParams, useSearchParams, useRouter } from 'next/navigation';
 import { notFound } from 'next/navigation';
 import { Container } from '@/components/ui/Container';
@@ -21,6 +21,14 @@ import type { ProductFilters } from '@/lib/filters';
 const ITEMS_PER_PAGE = 6;
 
 export default function CategoryPage() {
+  return (
+    <Suspense>
+      <CategoryContent />
+    </Suspense>
+  );
+}
+
+function CategoryContent() {
   const params = useParams();
   const searchParams = useSearchParams();
   const router = useRouter();
