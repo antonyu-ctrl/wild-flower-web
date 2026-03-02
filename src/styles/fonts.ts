@@ -1,5 +1,4 @@
-import { Cormorant_Garamond, Inter } from 'next/font/google';
-import localFont from 'next/font/local';
+import { Cormorant_Garamond, Inter, Gowun_Batang } from 'next/font/google';
 
 export const cormorant = Cormorant_Garamond({
   subsets: ['latin'],
@@ -15,11 +14,9 @@ export const inter = Inter({
   display: 'swap',
 });
 
-export const nanumKimYuYi = localFont({
-  src: '../fonts/NanumKimYuYi.ttf',
+export const gowunBatang = Gowun_Batang({
+  subsets: ['latin'],
+  weight: ['400', '700'],
   variable: '--font-korean',
   display: 'swap',
-  declarations: [
-    { prop: 'size-adjust', value: '150%' },
-  ],
 });
