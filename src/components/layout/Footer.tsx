@@ -2,11 +2,14 @@
 
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
-import { SITE_NAME, SITE_DESCRIPTION } from '@/lib/constants';
+import { SITE_NAME } from '@/lib/constants';
 import { footerNavSections, legalLinks } from '@/data/navigation';
 import { InstagramIcon, PinterestIcon } from '@/components/icons';
+import { useLanguage } from '@/context/LanguageContext';
 
 export default function Footer() {
+  const { t } = useLanguage();
+
   return (
     <footer className="border-t border-near-black/10 bg-cream">
       {/* Main Footer */}
@@ -21,14 +24,14 @@ export default function Footer() {
               {SITE_NAME}
             </Link>
             <p className="mt-4 text-sm leading-relaxed text-charcoal max-w-xs">
-              {SITE_DESCRIPTION}
+              {t.site.description}
             </p>
             <div className="mt-5 flex items-center gap-4">
               <a
                 href="https://instagram.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="Follow us on Instagram"
+                aria-label={t.footer.followInstagram}
                 className="text-charcoal hover:text-copper transition-colors duration-200"
               >
                 <InstagramIcon className="h-5 w-5" />
@@ -37,7 +40,7 @@ export default function Footer() {
                 href="https://pinterest.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="Follow us on Pinterest"
+                aria-label={t.footer.followPinterest}
                 className="text-charcoal hover:text-copper transition-colors duration-200"
               >
                 <PinterestIcon className="h-5 w-5" />
@@ -49,7 +52,7 @@ export default function Footer() {
           {footerNavSections.map((section) => (
             <div key={section.title}>
               <h3 className="text-xs font-sans tracking-[0.2em] uppercase text-near-black font-medium mb-4">
-                {section.title}
+                {(t.footer as Record<string, string>)[section.i18nKey] ?? section.title}
               </h3>
               <ul className="space-y-3">
                 {section.links.map((link) => (
@@ -58,7 +61,11 @@ export default function Footer() {
                       href={link.href}
                       className="text-sm text-charcoal hover:text-copper transition-colors duration-200"
                     >
-                      {link.label}
+                      {link.i18nKey
+                        ? ((t.nav as Record<string, string>)[link.i18nKey] ??
+                           (t.footer as Record<string, string>)[link.i18nKey] ??
+                           link.label)
+                        : link.label}
                     </Link>
                   </li>
                 ))}
@@ -69,11 +76,10 @@ export default function Footer() {
           {/* Newsletter Column */}
           <div>
             <h3 className="text-xs font-sans tracking-[0.2em] uppercase text-near-black font-medium mb-4">
-              Stay in Touch
+              {t.footer.stayInTouch}
             </h3>
             <p className="text-sm text-charcoal mb-4">
-              Join our community for early access, styling inspiration, and
-              stories from our atelier.
+              {t.footer.newsletterText}
             </p>
             <form
               onSubmit={(e) => e.preventDefault()}
@@ -81,8 +87,8 @@ export default function Footer() {
             >
               <input
                 type="email"
-                placeholder="Enter your email"
-                aria-label="Email address"
+                placeholder={t.footer.emailPlaceholder}
+                aria-label={t.footer.emailAriaLabel}
                 className={cn(
                   'w-full px-3 py-2.5',
                   'bg-transparent border border-near-black/20',
@@ -101,7 +107,7 @@ export default function Footer() {
                   'transition-colors duration-200'
                 )}
               >
-                Subscribe
+                {t.footer.subscribe}
               </button>
             </form>
           </div>
@@ -113,8 +119,7 @@ export default function Footer() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-between">
             <p className="text-xs text-charcoal/60 font-sans">
-              &copy; {new Date().getFullYear()} {SITE_NAME}. All rights
-              reserved.
+              &copy; {new Date().getFullYear()} {SITE_NAME}. {t.footer.allRightsReserved}
             </p>
             <div className="flex items-center gap-4">
               {legalLinks.map((link) => (
@@ -123,7 +128,9 @@ export default function Footer() {
                   href={link.href}
                   className="text-xs text-charcoal/60 hover:text-copper transition-colors duration-200 font-sans"
                 >
-                  {link.label}
+                  {link.i18nKey
+                    ? (t.footer as Record<string, string>)[link.i18nKey] ?? link.label
+                    : link.label}
                 </Link>
               ))}
             </div>

@@ -2,6 +2,8 @@
 
 import { cn } from '@/lib/utils';
 import type { ProductColor } from '@/types';
+import { useLanguage } from '@/context/LanguageContext';
+import { getColorName } from '@/i18n/helpers';
 
 interface ColorSwatchesProps {
   colors: ProductColor[];
@@ -16,8 +18,11 @@ export function ColorSwatches({
   onColorChange,
   className,
 }: ColorSwatchesProps) {
-  const selectedColorName =
-    colors.find((c) => c.slug === selectedColor)?.name ?? '';
+  const { t } = useLanguage();
+  const selectedColorObj = colors.find((c) => c.slug === selectedColor);
+  const selectedColorName = selectedColorObj
+    ? getColorName(t, selectedColorObj.slug, selectedColorObj.name)
+    : '';
 
   return (
     <div className={className}>
@@ -35,7 +40,7 @@ export function ColorSwatches({
                 isActive && 'ring-2 ring-copper ring-offset-2 ring-offset-cream'
               )}
               style={{ backgroundColor: color.hex }}
-              aria-label={`Select color: ${color.name}`}
+              aria-label={`${t.product.selectColor}: ${getColorName(t, color.slug, color.name)}`}
               aria-pressed={isActive}
             >
               {/* Border for light colors */}
@@ -45,7 +50,7 @@ export function ColorSwatches({
         })}
       </div>
       <p className="font-sans text-xs uppercase tracking-widest text-charcoal">
-        Color: <span className="text-near-black">{selectedColorName}</span>
+        {t.product.color}: <span className="text-near-black">{selectedColorName}</span>
       </p>
     </div>
   );

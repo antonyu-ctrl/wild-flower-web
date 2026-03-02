@@ -2,6 +2,7 @@
 
 import { Button } from '@/components/ui/Button';
 import { formatPrice } from '@/lib/utils';
+import { useLanguage } from '@/context/LanguageContext';
 
 interface AddToBagButtonProps {
   price: number;
@@ -14,6 +15,8 @@ export function AddToBagButton({
   onClick,
   disabled = false,
 }: AddToBagButtonProps) {
+  const { t } = useLanguage();
+
   return (
     <Button
       variant="primary"
@@ -22,7 +25,7 @@ export function AddToBagButton({
       onClick={onClick}
       disabled={disabled}
     >
-      ADD TO BAG &mdash; {formatPrice(price)}
+      {t.product.addToBag} &mdash; {formatPrice(price)}
     </Button>
   );
 }

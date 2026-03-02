@@ -1,11 +1,15 @@
+'use client';
+
 import { products } from '@/data/products';
 import { ProductCard } from '@/components/product/ProductCard';
+import { useLanguage } from '@/context/LanguageContext';
 
 interface CompleteTheLookProps {
   productIds: string[];
 }
 
 export function CompleteTheLook({ productIds }: CompleteTheLookProps) {
+  const { t } = useLanguage();
   const relatedProducts = productIds
     .map((id) => products.find((p) => p.id === id))
     .filter(Boolean)
@@ -16,7 +20,7 @@ export function CompleteTheLook({ productIds }: CompleteTheLookProps) {
   return (
     <section>
       <h2 className="font-serif text-2xl italic text-near-black mb-6 md:mb-8">
-        Complete the Look
+        {t.product.completeTheLook}
       </h2>
 
       {/* Desktop: grid, Mobile: horizontally scrollable */}

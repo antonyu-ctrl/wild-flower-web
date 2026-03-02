@@ -5,6 +5,8 @@ import Link from 'next/link';
 import { Container } from '@/components/ui/Container';
 import { Button } from '@/components/ui/Button';
 import { useCart } from '@/context/CartContext';
+import { useLanguage } from '@/context/LanguageContext';
+import { getProductName, getColorName, getMaterialName } from '@/i18n/helpers';
 import { products } from '@/data/products';
 import { formatPrice } from '@/lib/utils';
 import { FREE_SHIPPING_THRESHOLD } from '@/lib/constants';
@@ -12,20 +14,21 @@ import { MinusIcon, PlusIcon, TrashIcon, ArrowRightIcon } from '@/components/ico
 
 export default function CartPage() {
   const { items, subtotal, itemCount, updateQuantity, removeItem, clearCart } = useCart();
+  const { t } = useLanguage();
 
   if (items.length === 0) {
     return (
       <Container className="py-16 md:py-24 lg:py-32">
         <div className="text-center max-w-md mx-auto">
           <h1 className="font-serif text-3xl md:text-4xl text-near-black">
-            Your Bag is Empty
+            {t.pages.cart.emptyTitle}
           </h1>
           <p className="mt-4 font-sans text-sm text-charcoal">
-            Looks like you haven&apos;t added anything to your bag yet. Explore our collections to find something you love.
+            {t.pages.cart.emptyMessage}
           </p>
           <div className="mt-8">
             <Button href="/shop" variant="primary" size="lg">
-              Continue Shopping
+              {t.cart.continueShopping}
             </Button>
           </div>
         </div>
@@ -34,16 +37,16 @@ export default function CartPage() {
   }
 
   const shippingMessage = subtotal >= FREE_SHIPPING_THRESHOLD
-    ? 'You qualify for free standard shipping!'
-    : `Add ${formatPrice(FREE_SHIPPING_THRESHOLD - subtotal)} more for free shipping`;
+    ? t.pages.cart.freeShippingQualified
+    : t.pages.cart.freeShippingAdd.replace('{amount}', formatPrice(FREE_SHIPPING_THRESHOLD - subtotal));
 
   return (
     <Container className="py-10 md:py-14 lg:py-16">
       <h1 className="font-serif text-3xl md:text-4xl text-near-black">
-        Your Bag
+        {t.pages.cart.title}
       </h1>
       <p className="mt-1 font-sans text-sm text-charcoal">
-        {itemCount} {itemCount === 1 ? 'item' : 'items'}
+        {itemCount} {itemCount === 1 ? t.cart.item : t.cart.items}
       </p>
 
       <div className="mt-8 lg:grid lg:grid-cols-12 lg:gap-12">
@@ -89,20 +92,20 @@ export default function CartPage() {
                           href={`/shop/${product.category}/${product.slug}`}
                           className="font-serif text-base md:text-lg text-near-black hover:text-copper transition-colors duration-200"
                         >
-                          {product.name}
+                          {getProductName(t, product)}
                         </Link>
                         <div className="mt-1 font-sans text-xs text-charcoal space-x-2">
-                          {color && <span>{color.name}</span>}
+                          {color && <span>{getColorName(t, color.slug, color.name)}</span>}
                           <span className="text-charcoal/30">/</span>
-                          <span>Size {item.size}</span>
+                          <span>{t.product.size} {item.size}</span>
                         </div>
                         <p className="mt-1 font-sans text-xs text-charcoal/60">
-                          {product.material}
+                          {getMaterialName(t, product.material)}
                         </p>
                       </div>
                       <button
                         onClick={() => removeItem(item.variantId)}
-                        aria-label={`Remove ${product.name}`}
+                        aria-label={`${t.cart.remove} ${getProductName(t, product)}`}
                         className="flex-shrink-0 p-1.5 text-charcoal/40 hover:text-copper transition-colors duration-200"
                       >
                         <TrashIcon className="h-4 w-4" />
@@ -114,7 +117,7 @@ export default function CartPage() {
                       <div className="flex items-center border border-near-black/15">
                         <button
                           onClick={() => updateQuantity(item.variantId, item.quantity - 1)}
-                          aria-label="Decrease quantity"
+                          aria-label={t.cart.decreaseQuantity}
                           className="flex items-center justify-center w-8 h-8 text-charcoal hover:text-near-black transition-colors"
                         >
                           <MinusIcon className="h-3 w-3" />
@@ -124,7 +127,7 @@ export default function CartPage() {
                         </span>
                         <button
                           onClick={() => updateQuantity(item.variantId, item.quantity + 1)}
-                          aria-label="Increase quantity"
+                          aria-label={t.cart.increaseQuantity}
                           className="flex items-center justify-center w-8 h-8 text-charcoal hover:text-near-black transition-colors"
                         >
                           <PlusIcon className="h-3 w-3" />
@@ -146,7 +149,7 @@ export default function CartPage() {
               onClick={clearCart}
               className="font-sans text-xs text-charcoal/50 hover:text-copper transition-colors duration-200 tracking-wide uppercase"
             >
-              Clear Bag
+              {t.pages.cart.clearBag}
             </button>
           </div>
         </div>
@@ -155,39 +158,39 @@ export default function CartPage() {
         <div className="mt-10 lg:mt-0 lg:col-span-5">
           <div className="lg:sticky lg:top-24 bg-cream-dark p-6 md:p-8">
             <h2 className="font-serif text-xl text-near-black">
-              Order Summary
+              {t.pages.cart.orderSummary}
             </h2>
 
             <div className="mt-6 space-y-3">
               <div className="flex justify-between font-sans text-sm">
-                <span className="text-charcoal">Subtotal</span>
+                <span className="text-charcoal">{t.orderSummary.subtotal}</span>
                 <span className="text-near-black">{formatPrice(subtotal)}</span>
               </div>
               <div className="flex justify-between font-sans text-sm">
-                <span className="text-charcoal">Shipping</span>
-                <span className="text-charcoal/60 text-xs">Calculated at checkout</span>
+                <span className="text-charcoal">{t.orderSummary.shipping}</span>
+                <span className="text-charcoal/60 text-xs">{t.pages.cart.calculatedAtCheckout}</span>
               </div>
               <div className="flex justify-between font-sans text-sm">
-                <span className="text-charcoal">Tax</span>
-                <span className="text-charcoal/60 text-xs">Calculated at checkout</span>
+                <span className="text-charcoal">{t.orderSummary.tax}</span>
+                <span className="text-charcoal/60 text-xs">{t.pages.cart.calculatedAtCheckout}</span>
               </div>
             </div>
 
             <div className="mt-6 pt-4 border-t border-near-black/10 flex justify-between">
-              <span className="font-serif text-lg text-near-black">Estimated Total</span>
+              <span className="font-serif text-lg text-near-black">{t.pages.cart.estimatedTotal}</span>
               <span className="font-serif text-lg text-near-black">{formatPrice(subtotal)}</span>
             </div>
 
             <div className="mt-6">
               <Button href="/checkout/information" variant="primary" fullWidth size="lg">
-                <span>Proceed to Checkout</span>
+                <span>{t.pages.cart.proceedToCheckout}</span>
                 <ArrowRightIcon className="ml-2 h-4 w-4" />
               </Button>
             </div>
 
             <div className="mt-4">
               <Button href="/shop" variant="ghost" fullWidth size="sm">
-                Continue Shopping
+                {t.cart.continueShopping}
               </Button>
             </div>
           </div>

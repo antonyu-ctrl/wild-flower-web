@@ -3,6 +3,7 @@
 import { useMemo } from 'react';
 import { cn } from '@/lib/utils';
 import type { Size, ProductVariant } from '@/types';
+import { useLanguage } from '@/context/LanguageContext';
 
 interface SizeSelectorProps {
   sizes: Size[];
@@ -21,6 +22,8 @@ export function SizeSelector({
   selectedColor,
   className,
 }: SizeSelectorProps) {
+  const { t } = useLanguage();
+
   // Determine which sizes are in stock for the currently selected color
   const sizeStockMap = useMemo(() => {
     const map: Record<string, boolean> = {};
@@ -43,7 +46,7 @@ export function SizeSelector({
   return (
     <div className={className}>
       <p className="font-sans text-xs uppercase tracking-widest text-near-black mb-3">
-        Size
+        {t.product.size}
       </p>
       <div className="flex flex-wrap gap-2">
         {sizes.map((size) => {

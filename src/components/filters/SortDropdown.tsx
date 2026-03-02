@@ -2,13 +2,7 @@
 
 import { cn } from '@/lib/utils';
 import { ChevronDownIcon } from '@/components/icons';
-
-const SORT_OPTIONS = [
-  { value: 'newest', label: 'Newest Arrivals' },
-  { value: 'price-asc', label: 'Price: Low to High' },
-  { value: 'price-desc', label: 'Price: High to Low' },
-  { value: 'name-asc', label: 'Name: A-Z' },
-] as const;
+import { useLanguage } from '@/context/LanguageContext';
 
 interface SortDropdownProps {
   value: string;
@@ -17,13 +11,22 @@ interface SortDropdownProps {
 }
 
 export function SortDropdown({ value, onChange, className }: SortDropdownProps) {
+  const { t } = useLanguage();
+
+  const sortOptions = [
+    { value: 'newest', label: t.filters.sortNewest },
+    { value: 'price-asc', label: t.filters.sortPriceLow },
+    { value: 'price-desc', label: t.filters.sortPriceHigh },
+    { value: 'name-asc', label: t.filters.sortNameAZ },
+  ];
+
   const currentLabel =
-    SORT_OPTIONS.find((opt) => opt.value === value)?.label ?? 'Newest Arrivals';
+    sortOptions.find((opt) => opt.value === value)?.label ?? t.filters.sortNewest;
 
   return (
     <div className={cn('relative inline-flex items-center', className)}>
       <span className="font-sans text-xs tracking-wide text-charcoal mr-2 whitespace-nowrap">
-        Sort by:
+        {t.filters.sortBy}:
       </span>
       <div className="relative">
         <select
@@ -35,9 +38,9 @@ export function SortDropdown({ value, onChange, className }: SortDropdownProps) 
             'cursor-pointer border-none outline-none',
             'focus-visible:ring-2 focus-visible:ring-copper focus-visible:ring-offset-2 focus-visible:ring-offset-cream rounded'
           )}
-          aria-label={`Sort by ${currentLabel}`}
+          aria-label={`${t.filters.sortBy} ${currentLabel}`}
         >
-          {SORT_OPTIONS.map((option) => (
+          {sortOptions.map((option) => (
             <option key={option.value} value={option.value}>
               {option.label}
             </option>

@@ -4,11 +4,13 @@ import { useEffect } from 'react';
 import Link from 'next/link';
 import { cn, formatPrice } from '@/lib/utils';
 import { useCart } from '@/context/CartContext';
+import { useLanguage } from '@/context/LanguageContext';
 import { XIcon, ShoppingBagIcon } from '@/components/icons';
 import CartItem from './CartItem';
 
 export default function CartDrawer() {
   const { items, isDrawerOpen, closeDrawer, subtotal, itemCount } = useCart();
+  const { t } = useLanguage();
 
   // Lock body scroll when drawer is open
   useEffect(() => {
@@ -53,7 +55,7 @@ export default function CartDrawer() {
       <div
         role="dialog"
         aria-modal="true"
-        aria-label="Shopping bag"
+        aria-label={t.header.shoppingBag}
         className={cn(
           'fixed top-0 right-0 bottom-0 z-[90] w-full max-w-md',
           'bg-cream flex flex-col',
@@ -63,10 +65,10 @@ export default function CartDrawer() {
       >
         {/* Header */}
         <div className="flex items-center justify-between px-6 h-14 border-b border-near-black/10 flex-shrink-0">
-          <h2 className="font-serif text-lg text-near-black">Shopping Bag</h2>
+          <h2 className="font-serif text-lg text-near-black">{t.cart.title}</h2>
           <button
             onClick={closeDrawer}
-            aria-label="Close shopping bag"
+            aria-label={t.cart.close}
             className="text-near-black hover:text-copper transition-colors duration-200 -mr-1 p-1"
           >
             <XIcon className="h-5 w-5" />
@@ -79,10 +81,10 @@ export default function CartDrawer() {
           <div className="flex-1 flex flex-col items-center justify-center px-6 text-center">
             <ShoppingBagIcon className="h-12 w-12 text-charcoal/30 mb-4" />
             <p className="font-serif text-lg text-near-black mb-2">
-              Your bag is empty
+              {t.cart.emptyTitle}
             </p>
             <p className="text-sm text-charcoal mb-6">
-              Discover our handcrafted collection and find something you love.
+              {t.cart.emptyMessage}
             </p>
             <Link
               href="/shop"
@@ -95,7 +97,7 @@ export default function CartDrawer() {
                 'transition-colors duration-200'
               )}
             >
-              Continue Shopping
+              {t.cart.continueShopping}
             </Link>
           </div>
         ) : (
@@ -114,7 +116,7 @@ export default function CartDrawer() {
               {/* Subtotal */}
               <div className="flex items-center justify-between mb-4">
                 <span className="font-sans text-sm text-charcoal uppercase tracking-wide">
-                  Subtotal ({itemCount} {itemCount === 1 ? 'item' : 'items'})
+                  {t.cart.subtotal} ({itemCount} {itemCount === 1 ? t.cart.item : t.cart.items})
                 </span>
                 <span className="font-serif text-lg text-near-black">
                   {formatPrice(subtotal)}
@@ -122,7 +124,7 @@ export default function CartDrawer() {
               </div>
 
               <p className="text-xs text-charcoal/60 mb-4 font-sans">
-                Shipping and taxes calculated at checkout.
+                {t.cart.shippingNote}
               </p>
 
               {/* Action Buttons */}
@@ -138,7 +140,7 @@ export default function CartDrawer() {
                     'transition-colors duration-200'
                   )}
                 >
-                  Checkout
+                  {t.cart.checkout}
                 </Link>
                 <Link
                   href="/cart"
@@ -152,7 +154,7 @@ export default function CartDrawer() {
                     'transition-colors duration-200'
                   )}
                 >
-                  View Cart
+                  {t.cart.viewCart}
                 </Link>
               </div>
             </div>

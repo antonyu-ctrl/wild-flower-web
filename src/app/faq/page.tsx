@@ -4,85 +4,7 @@ import { useState } from 'react';
 import { Container } from '@/components/ui/Container';
 import Breadcrumb from '@/components/layout/Breadcrumb';
 import { cn } from '@/lib/utils';
-
-const faqs = [
-  {
-    category: 'Orders & Shipping',
-    questions: [
-      {
-        q: 'How long does shipping take?',
-        a: 'Standard shipping takes 5–7 business days within the US. Express shipping arrives in 2–3 business days, and overnight shipping delivers by the next business day. International shipping times vary by destination.',
-      },
-      {
-        q: 'Do you offer free shipping?',
-        a: 'Yes! We offer free standard shipping on all orders over $150 within the United States.',
-      },
-      {
-        q: 'Can I track my order?',
-        a: 'Absolutely. You\'ll receive a tracking number via email as soon as your order ships. You can use it to follow your package every step of the way.',
-      },
-      {
-        q: 'Do you ship internationally?',
-        a: 'Yes, we ship to select countries worldwide. International shipping rates are calculated at checkout based on your destination and package weight.',
-      },
-    ],
-  },
-  {
-    category: 'Returns & Exchanges',
-    questions: [
-      {
-        q: 'What is your return policy?',
-        a: 'We accept returns within 30 days of delivery for a full refund or exchange. Items must be unworn, unwashed, and in their original packaging with all tags attached.',
-      },
-      {
-        q: 'How do I start a return?',
-        a: 'Email us at hello@wildflower.com with your order number and reason for return. We\'ll send you a prepaid return label within 24 hours.',
-      },
-      {
-        q: 'Can I exchange for a different size?',
-        a: 'Yes! We offer free exchanges within 30 days of delivery, subject to availability. Contact us and we\'ll arrange everything for you.',
-      },
-    ],
-  },
-  {
-    category: 'Products & Care',
-    questions: [
-      {
-        q: 'Are your products really handmade?',
-        a: 'Yes, every Wild Flower piece is cut, sewn, and finished by hand in our Los Angeles atelier. Our artisans bring decades of experience in traditional craft techniques.',
-      },
-      {
-        q: 'How should I care for my linen garments?',
-        a: 'Machine wash cold on a gentle cycle and hang dry for best results. Linen naturally softens with every wash and develops a beautiful lived-in character over time. Avoid bleach and tumble drying on high heat.',
-      },
-      {
-        q: 'Are your materials sustainably sourced?',
-        a: 'We carefully source all our materials from ethical suppliers. Our linen comes from European flax farms, our cotton is GOTS-certified organic, and our leather is vegetable-tanned using traditional methods without harmful chemicals.',
-      },
-      {
-        q: 'What does "vegetable-tanned leather" mean?',
-        a: 'Vegetable tanning is a centuries-old method that uses natural tannins from bark and plants instead of chromium or other heavy metals. The resulting leather is more natural, develops a beautiful patina over time, and is far more environmentally friendly.',
-      },
-    ],
-  },
-  {
-    category: 'General',
-    questions: [
-      {
-        q: 'Do you have a physical store?',
-        a: 'We\'re currently online only, but we occasionally host pop-up events and trunk shows in Los Angeles and beyond. Subscribe to our newsletter to be the first to hear about upcoming events.',
-      },
-      {
-        q: 'Do you offer gift cards?',
-        a: 'Gift cards are coming soon! Sign up for our newsletter to be notified when they become available.',
-      },
-      {
-        q: 'How can I contact you?',
-        a: 'You can reach us at hello@wildflower.com or through our contact page. We respond to all inquiries within 24 hours during business days.',
-      },
-    ],
-  },
-];
+import { useLanguage } from '@/context/LanguageContext';
 
 function FAQItem({ question, answer }: { question: string; answer: string }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -125,19 +47,57 @@ function FAQItem({ question, answer }: { question: string; answer: string }) {
 }
 
 export default function FAQPage() {
+  const { t } = useLanguage();
+
+  const faqs = [
+    {
+      category: t.pages.faq.categories.ordersShipping,
+      questions: [
+        { q: t.pages.faq.questions.shippingTime, a: t.pages.faq.questions.shippingTimeAnswer },
+        { q: t.pages.faq.questions.freeShipping, a: t.pages.faq.questions.freeShippingAnswer },
+        { q: t.pages.faq.questions.trackOrder, a: t.pages.faq.questions.trackOrderAnswer },
+        { q: t.pages.faq.questions.internationalShipping, a: t.pages.faq.questions.internationalShippingAnswer },
+      ],
+    },
+    {
+      category: t.pages.faq.categories.returnsExchanges,
+      questions: [
+        { q: t.pages.faq.questions.returnPolicy, a: t.pages.faq.questions.returnPolicyAnswer },
+        { q: t.pages.faq.questions.startReturn, a: t.pages.faq.questions.startReturnAnswer },
+        { q: t.pages.faq.questions.exchangeSize, a: t.pages.faq.questions.exchangeSizeAnswer },
+      ],
+    },
+    {
+      category: t.pages.faq.categories.productsCare,
+      questions: [
+        { q: t.pages.faq.questions.handmade, a: t.pages.faq.questions.handmadeAnswer },
+        { q: t.pages.faq.questions.linenCare, a: t.pages.faq.questions.linenCareAnswer },
+        { q: t.pages.faq.questions.sustainableMaterials, a: t.pages.faq.questions.sustainableMaterialsAnswer },
+        { q: t.pages.faq.questions.vegetableTanned, a: t.pages.faq.questions.vegetableTannedAnswer },
+      ],
+    },
+    {
+      category: t.pages.faq.categories.general,
+      questions: [
+        { q: t.pages.faq.questions.physicalStore, a: t.pages.faq.questions.physicalStoreAnswer },
+        { q: t.pages.faq.questions.giftCardsAvailable, a: t.pages.faq.questions.giftCardsAvailableAnswer },
+        { q: t.pages.faq.questions.contactUs, a: t.pages.faq.questions.contactUsAnswer },
+      ],
+    },
+  ];
+
   return (
     <Container className="py-4 md:py-6">
-      <Breadcrumb items={[{ label: 'FAQ' }]} />
+      <Breadcrumb items={[{ label: t.footer.faq }]} />
 
       <div className="max-w-3xl mt-2 mb-10 md:mb-14">
         <h1 className="font-serif text-3xl md:text-4xl text-near-black">
-          Frequently Asked Questions
+          {t.pages.faq.title}
         </h1>
         <p className="mt-4 font-sans text-sm leading-relaxed text-charcoal">
-          Everything you need to know about shopping with Wild Flower. Can&apos;t
-          find what you&apos;re looking for?{' '}
+          {t.pages.faq.description}{' '}
           <a href="/contact" className="text-copper hover:underline">
-            Get in touch
+            {t.pages.faq.getInTouch}
           </a>
           .
         </p>

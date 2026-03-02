@@ -1,40 +1,37 @@
+'use client';
+
 import { Container } from '@/components/ui/Container';
 import Breadcrumb from '@/components/layout/Breadcrumb';
-
-export const metadata = {
-  title: 'Size Guide — Wild Flower',
-  description:
-    'Find your perfect fit with our detailed size guide for dresses, shoes, bags, and accessories.',
-};
+import { useLanguage } from '@/context/LanguageContext';
 
 export default function SizeGuidePage() {
+  const { t } = useLanguage();
+
   return (
     <Container className="py-4 md:py-6">
-      <Breadcrumb items={[{ label: 'Size Guide' }]} />
+      <Breadcrumb items={[{ label: t.pages.sizeGuide.title }]} />
 
       <div className="max-w-3xl mt-2 mb-12">
         <h1 className="font-serif text-3xl md:text-4xl text-near-black">
-          Size Guide
+          {t.pages.sizeGuide.title}
         </h1>
         <p className="mt-4 font-sans text-sm leading-relaxed text-charcoal">
-          Our pieces are designed with a relaxed, comfortable fit. Use the
-          measurements below to find your ideal size. When in between sizes, we
-          recommend sizing up for a more relaxed drape.
+          {t.pages.sizeGuide.intro}
         </p>
       </div>
 
       <div className="max-w-3xl space-y-12 pb-12">
         {/* Dresses */}
         <section>
-          <h2 className="font-serif text-xl text-near-black mb-6">Dresses</h2>
+          <h2 className="font-serif text-xl text-near-black mb-6">{t.pages.sizeGuide.dresses}</h2>
           <div className="overflow-x-auto">
             <table className="w-full border border-near-black/15">
               <thead>
                 <tr className="bg-cream-dark">
-                  <th className="font-sans text-xs uppercase tracking-widest text-charcoal text-left px-4 py-3 border-b border-near-black/15">Size</th>
-                  <th className="font-sans text-xs uppercase tracking-widest text-charcoal text-left px-4 py-3 border-b border-near-black/15">Bust</th>
-                  <th className="font-sans text-xs uppercase tracking-widest text-charcoal text-left px-4 py-3 border-b border-near-black/15">Waist</th>
-                  <th className="font-sans text-xs uppercase tracking-widest text-charcoal text-left px-4 py-3 border-b border-near-black/15">Hip</th>
+                  <th className="font-sans text-xs uppercase tracking-widest text-charcoal text-left px-4 py-3 border-b border-near-black/15">{t.pages.sizeGuide.sizeHeader}</th>
+                  <th className="font-sans text-xs uppercase tracking-widest text-charcoal text-left px-4 py-3 border-b border-near-black/15">{t.pages.sizeGuide.bust}</th>
+                  <th className="font-sans text-xs uppercase tracking-widest text-charcoal text-left px-4 py-3 border-b border-near-black/15">{t.pages.sizeGuide.waist}</th>
+                  <th className="font-sans text-xs uppercase tracking-widest text-charcoal text-left px-4 py-3 border-b border-near-black/15">{t.pages.sizeGuide.hip}</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-near-black/15">
@@ -59,15 +56,15 @@ export default function SizeGuidePage() {
 
         {/* Shoes */}
         <section>
-          <h2 className="font-serif text-xl text-near-black mb-6">Shoes</h2>
+          <h2 className="font-serif text-xl text-near-black mb-6">{t.pages.sizeGuide.shoes}</h2>
           <div className="overflow-x-auto">
             <table className="w-full border border-near-black/15">
               <thead>
                 <tr className="bg-cream-dark">
-                  <th className="font-sans text-xs uppercase tracking-widest text-charcoal text-left px-4 py-3 border-b border-near-black/15">Size</th>
-                  <th className="font-sans text-xs uppercase tracking-widest text-charcoal text-left px-4 py-3 border-b border-near-black/15">US Size</th>
-                  <th className="font-sans text-xs uppercase tracking-widest text-charcoal text-left px-4 py-3 border-b border-near-black/15">EU Size</th>
-                  <th className="font-sans text-xs uppercase tracking-widest text-charcoal text-left px-4 py-3 border-b border-near-black/15">Foot Length</th>
+                  <th className="font-sans text-xs uppercase tracking-widest text-charcoal text-left px-4 py-3 border-b border-near-black/15">{t.pages.sizeGuide.sizeHeader}</th>
+                  <th className="font-sans text-xs uppercase tracking-widest text-charcoal text-left px-4 py-3 border-b border-near-black/15">{t.pages.sizeGuide.usSize}</th>
+                  <th className="font-sans text-xs uppercase tracking-widest text-charcoal text-left px-4 py-3 border-b border-near-black/15">{t.pages.sizeGuide.euSize}</th>
+                  <th className="font-sans text-xs uppercase tracking-widest text-charcoal text-left px-4 py-3 border-b border-near-black/15">{t.pages.sizeGuide.footLength}</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-near-black/15">
@@ -91,36 +88,31 @@ export default function SizeGuidePage() {
         {/* How to Measure */}
         <section>
           <h2 className="font-serif text-xl text-near-black mb-6">
-            How to Measure
+            {t.pages.sizeGuide.howToMeasure}
           </h2>
           <div className="space-y-4 font-sans text-sm leading-relaxed text-charcoal">
             <div>
-              <strong className="text-near-black">Bust</strong> — Measure around
-              the fullest part of your bust, keeping the tape level.
+              <strong className="text-near-black">{t.pages.sizeGuide.bust}</strong> — {t.pages.sizeGuide.bustInstruction}
             </div>
             <div>
-              <strong className="text-near-black">Waist</strong> — Measure around
-              your natural waistline, the narrowest part of your torso.
+              <strong className="text-near-black">{t.pages.sizeGuide.waist}</strong> — {t.pages.sizeGuide.waistInstruction}
             </div>
             <div>
-              <strong className="text-near-black">Hip</strong> — Measure around
-              the fullest part of your hips, about 8 inches below your waist.
+              <strong className="text-near-black">{t.pages.sizeGuide.hip}</strong> — {t.pages.sizeGuide.hipInstruction}
             </div>
             <div>
-              <strong className="text-near-black">Foot Length</strong> — Stand on
-              a piece of paper and trace your foot. Measure from the heel to the
-              tip of your longest toe.
+              <strong className="text-near-black">{t.pages.sizeGuide.footLength}</strong> — {t.pages.sizeGuide.footLengthInstruction}
             </div>
           </div>
         </section>
 
         <div className="border-t border-near-black/10 pt-8">
           <p className="font-sans text-sm text-charcoal">
-            Still unsure about sizing?{' '}
+            {t.pages.sizeGuide.unsure}{' '}
             <a href="/contact" className="text-copper hover:underline">
-              Contact us
-            </a>{' '}
-            and we&apos;ll help you find the perfect fit.
+              {t.pages.sizeGuide.contactLink}
+            </a>
+            {t.pages.sizeGuide.unsureEnd}
           </p>
         </div>
       </div>

@@ -1,67 +1,47 @@
+'use client';
+
 import { Container } from '@/components/ui/Container';
 import Breadcrumb from '@/components/layout/Breadcrumb';
-
-export const metadata = {
-  title: 'Cookie Policy — Wild Flower',
-  description: 'Wild Flower cookie policy — how we use cookies and similar technologies on our website.',
-};
+import { useLanguage } from '@/context/LanguageContext';
 
 export default function CookiePolicyPage() {
+  const { t } = useLanguage();
+
   return (
     <Container className="py-4 md:py-6">
-      <Breadcrumb items={[{ label: 'Cookie Policy' }]} />
+      <Breadcrumb items={[{ label: t.pages.cookiePolicy.title }]} />
 
       <div className="max-w-3xl mt-2 pb-12">
         <h1 className="font-serif text-3xl md:text-4xl text-near-black mb-2">
-          Cookie Policy
+          {t.pages.cookiePolicy.title}
         </h1>
         <p className="font-sans text-xs text-charcoal/60 mb-10">
-          Last updated: March 1, 2026
+          {t.pages.cookiePolicy.lastUpdated}
         </p>
 
         <div className="space-y-8">
           <section>
             <h2 className="font-serif text-xl text-near-black mb-3">
-              What Are Cookies?
+              {t.pages.cookiePolicy.whatAreTitle}
             </h2>
             <div className="space-y-3 font-sans text-sm leading-relaxed text-charcoal">
-              <p>
-                Cookies are small text files that are stored on your device when
-                you visit a website. They help the website remember your
-                preferences and improve your browsing experience.
-              </p>
+              <p>{t.pages.cookiePolicy.whatAreText}</p>
             </div>
           </section>
 
           <section>
             <h2 className="font-serif text-xl text-near-black mb-3">
-              How We Use Cookies
+              {t.pages.cookiePolicy.howWeUseTitle}
             </h2>
             <div className="space-y-3 font-sans text-sm leading-relaxed text-charcoal">
-              <p>We use the following types of cookies:</p>
+              <p>{t.pages.cookiePolicy.howWeUseIntro}</p>
             </div>
             <div className="mt-4 border border-near-black/15 divide-y divide-near-black/15">
               {[
-                {
-                  type: 'Essential',
-                  purpose: 'Required for the website to function. These enable core features like shopping cart, checkout, and account access.',
-                  duration: 'Session / 1 year',
-                },
-                {
-                  type: 'Functional',
-                  purpose: 'Remember your preferences such as language, currency, and recently viewed products.',
-                  duration: '1 year',
-                },
-                {
-                  type: 'Analytics',
-                  purpose: 'Help us understand how visitors interact with our website so we can improve the experience.',
-                  duration: '2 years',
-                },
-                {
-                  type: 'Marketing',
-                  purpose: 'Used to show you relevant ads and measure the effectiveness of our marketing campaigns.',
-                  duration: '90 days',
-                },
+                { type: t.pages.cookiePolicy.essential, purpose: t.pages.cookiePolicy.essentialPurpose, duration: t.pages.cookiePolicy.essentialDuration },
+                { type: t.pages.cookiePolicy.functional, purpose: t.pages.cookiePolicy.functionalPurpose, duration: t.pages.cookiePolicy.functionalDuration },
+                { type: t.pages.cookiePolicy.analytics, purpose: t.pages.cookiePolicy.analyticsPurpose, duration: t.pages.cookiePolicy.analyticsDuration },
+                { type: t.pages.cookiePolicy.marketing, purpose: t.pages.cookiePolicy.marketingPurpose, duration: t.pages.cookiePolicy.marketingDuration },
               ].map((cookie) => (
                 <div key={cookie.type} className="px-4 py-4">
                   <div className="flex items-center justify-between mb-1">
@@ -82,57 +62,41 @@ export default function CookiePolicyPage() {
 
           <section>
             <h2 className="font-serif text-xl text-near-black mb-3">
-              Third-Party Cookies
+              {t.pages.cookiePolicy.thirdPartyTitle}
             </h2>
             <div className="space-y-3 font-sans text-sm leading-relaxed text-charcoal">
+              <p>{t.pages.cookiePolicy.thirdPartyText}</p>
+            </div>
+          </section>
+
+          <section>
+            <h2 className="font-serif text-xl text-near-black mb-3">
+              {t.pages.cookiePolicy.managingTitle}
+            </h2>
+            <div className="space-y-3 font-sans text-sm leading-relaxed text-charcoal">
+              <p>{t.pages.cookiePolicy.managingText1}</p>
               <p>
-                Some cookies are set by third-party services that appear on our
-                pages. We use services like analytics platforms and payment
-                processors that may set their own cookies. We do not control
-                these cookies — please refer to the respective third-party
-                privacy policies for more information.
+                {t.pages.cookiePolicy.managingText2}{' '}
+                <span className="text-near-black">{t.pages.cookiePolicy.managingLink}</span>.
               </p>
             </div>
           </section>
 
           <section>
             <h2 className="font-serif text-xl text-near-black mb-3">
-              Managing Cookies
+              {t.pages.cookiePolicy.updatesTitle}
             </h2>
             <div className="space-y-3 font-sans text-sm leading-relaxed text-charcoal">
-              <p>
-                You can control and manage cookies through your browser
-                settings. Most browsers allow you to refuse or delete cookies.
-                Please note that disabling essential cookies may affect the
-                functionality of our website, including the ability to add items
-                to your cart or complete checkout.
-              </p>
-              <p>
-                To learn more about cookies and how to manage them, visit{' '}
-                <span className="text-near-black">aboutcookies.org</span>.
-              </p>
+              <p>{t.pages.cookiePolicy.updatesText}</p>
             </div>
           </section>
 
           <section>
             <h2 className="font-serif text-xl text-near-black mb-3">
-              Updates to This Policy
-            </h2>
-            <div className="space-y-3 font-sans text-sm leading-relaxed text-charcoal">
-              <p>
-                We may update this cookie policy from time to time to reflect
-                changes in technology or regulation. Any updates will be posted
-                on this page with a revised date.
-              </p>
-            </div>
-          </section>
-
-          <section>
-            <h2 className="font-serif text-xl text-near-black mb-3">
-              Contact
+              {t.pages.cookiePolicy.contactTitle}
             </h2>
             <p className="font-sans text-sm leading-relaxed text-charcoal">
-              If you have questions about our use of cookies, contact us at{' '}
+              {t.pages.cookiePolicy.contactText}{' '}
               <a href="mailto:hello@wildflower.com" className="text-copper hover:underline">
                 hello@wildflower.com
               </a>

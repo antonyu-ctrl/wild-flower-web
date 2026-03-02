@@ -3,6 +3,8 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useCheckout } from '@/context/CheckoutContext';
+import { useLanguage } from '@/context/LanguageContext';
+import { getShippingMethodName, getShippingMethodDescription } from '@/i18n/helpers';
 import { Button } from '@/components/ui/Button';
 import { Container } from '@/components/ui/Container';
 import { CheckIcon } from '@/components/icons';
@@ -10,6 +12,7 @@ import { CheckIcon } from '@/components/icons';
 export default function CheckoutConfirmationPage() {
   const router = useRouter();
   const { orderNumber, email, shippingAddress, shippingMethod, reset } = useCheckout();
+  const { t } = useLanguage();
 
   useEffect(() => {
     if (!orderNumber) {
@@ -35,17 +38,17 @@ export default function CheckoutConfirmationPage() {
         </div>
 
         <h1 className="mt-6 font-serif text-3xl md:text-4xl text-near-black">
-          Thank You!
+          {t.checkout.thankYou}
         </h1>
         <p className="mt-2 font-sans text-sm text-charcoal">
-          Your order has been placed successfully.
+          {t.checkout.orderPlaced}
         </p>
 
         {/* Order Details Card */}
         <div className="mt-8 border border-near-black/15 text-left">
           <div className="px-6 py-4 bg-cream-dark border-b border-near-black/10">
             <p className="font-sans text-xs text-charcoal/60 uppercase tracking-wide">
-              Order Number
+              {t.checkout.orderNumber}
             </p>
             <p className="mt-1 font-serif text-xl text-near-black">
               {orderNumber}
@@ -55,14 +58,14 @@ export default function CheckoutConfirmationPage() {
           <div className="px-6 py-4 space-y-4">
             <div>
               <p className="font-sans text-xs text-charcoal/60 uppercase tracking-wide">
-                Confirmation will be sent to
+                {t.checkout.confirmationSentTo}
               </p>
               <p className="mt-1 font-sans text-sm text-near-black">{email}</p>
             </div>
 
             <div className="border-t border-near-black/10 pt-4">
               <p className="font-sans text-xs text-charcoal/60 uppercase tracking-wide">
-                Shipping Address
+                {t.checkout.shippingAddress}
               </p>
               <p className="mt-1 font-sans text-sm text-near-black">
                 {shippingAddress.firstName} {shippingAddress.lastName}
@@ -78,10 +81,10 @@ export default function CheckoutConfirmationPage() {
 
             <div className="border-t border-near-black/10 pt-4">
               <p className="font-sans text-xs text-charcoal/60 uppercase tracking-wide">
-                Shipping Method
+                {t.checkout.shippingMethod}
               </p>
               <p className="mt-1 font-sans text-sm text-near-black">
-                {shippingMethod.name} — {shippingMethod.description}
+                {getShippingMethodName(t, shippingMethod.id, shippingMethod.name)} — {getShippingMethodDescription(t, shippingMethod.id, shippingMethod.description)}
               </p>
             </div>
           </div>
@@ -89,12 +92,12 @@ export default function CheckoutConfirmationPage() {
 
         <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
           <Button onClick={handleContinueShopping} variant="primary" size="lg">
-            Continue Shopping
+            {t.cart.continueShopping}
           </Button>
         </div>
 
         <p className="mt-8 font-sans text-xs text-charcoal/40">
-          Need help? Contact us at hello@wildflower.com
+          {t.checkout.needHelp}
         </p>
       </div>
     </Container>

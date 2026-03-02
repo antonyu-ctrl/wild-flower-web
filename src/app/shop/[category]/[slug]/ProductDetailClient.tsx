@@ -3,6 +3,8 @@
 import { useState, useCallback } from 'react';
 import type { Product } from '@/types';
 import { useCart } from '@/context/CartContext';
+import { useLanguage } from '@/context/LanguageContext';
+import { getProductName, getProductDescription, getProductDetails, getProductSustainability } from '@/i18n/helpers';
 import { formatPrice } from '@/lib/utils';
 import { StarRating } from '@/components/ui/StarRating';
 import { Accordion } from '@/components/ui/Accordion';
@@ -17,6 +19,7 @@ interface ProductDetailClientProps {
 
 export function ProductDetailClient({ product }: ProductDetailClientProps) {
   const { addItem, openDrawer } = useCart();
+  const { t } = useLanguage();
 
   const [selectedColor, setSelectedColor] = useState(
     product.colors[0]?.slug ?? ''
@@ -68,7 +71,7 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
         <div className="md:sticky md:top-24">
           {/* Name */}
           <h1 className="font-serif text-2xl md:text-3xl text-near-black">
-            {product.name}
+            {getProductName(t, product)}
           </h1>
 
           {/* Price */}
@@ -91,7 +94,7 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
 
           {/* Description */}
           <p className="mt-5 font-sans text-sm leading-relaxed text-charcoal">
-            {product.description}
+            {getProductDescription(t, product)}
           </p>
 
           {/* Color swatches */}
@@ -127,16 +130,16 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
             />
             {!selectedSize && (
               <p className="mt-2 font-sans text-xs text-charcoal/60 text-center">
-                Please select a size
+                {t.product.pleaseSelectSize}
               </p>
             )}
           </div>
 
           {/* Accordion sections */}
           <div className="mt-8 border-t border-near-black/10">
-            <Accordion title="Details & Care" defaultOpen>
+            <Accordion title={t.product.detailsAndCare} defaultOpen>
               <ul className="space-y-2">
-                {product.details.map((detail, i) => (
+                {getProductDetails(t, product).map((detail, i) => (
                   <li key={i} className="flex items-start gap-2">
                     <span className="mt-1.5 h-1 w-1 rounded-full bg-copper flex-shrink-0" />
                     <span>{detail}</span>
@@ -145,22 +148,14 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
               </ul>
             </Accordion>
 
-            <Accordion title="Sustainability">
-              <p>{product.sustainability}</p>
+            <Accordion title={t.product.sustainability}>
+              <p>{getProductSustainability(t, product)}</p>
             </Accordion>
 
-            <Accordion title="Shipping & Returns">
+            <Accordion title={t.product.shippingAndReturns}>
               <div className="space-y-3">
-                <p>
-                  Complimentary shipping on all orders over $150. Standard
-                  shipping (5-7 business days) is free. Express shipping (2-3
-                  business days) is available for $12.
-                </p>
-                <p>
-                  We accept returns and exchanges within 30 days of delivery.
-                  Items must be unworn, unwashed, and in original packaging with
-                  tags attached. Return shipping is complimentary for US orders.
-                </p>
+                <p>{t.product.shippingReturnsPdpText1}</p>
+                <p>{t.product.shippingReturnsPdpText2}</p>
               </div>
             </Accordion>
           </div>

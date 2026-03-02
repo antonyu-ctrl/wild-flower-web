@@ -4,9 +4,11 @@ import { useState } from 'react';
 import { Container } from '@/components/ui/Container';
 import Breadcrumb from '@/components/layout/Breadcrumb';
 import { Button } from '@/components/ui/Button';
+import { useLanguage } from '@/context/LanguageContext';
 
 export default function ContactPage() {
   const [submitted, setSubmitted] = useState(false);
+  const { t } = useLanguage();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -18,16 +20,14 @@ export default function ContactPage() {
 
   return (
     <Container className="py-4 md:py-6">
-      <Breadcrumb items={[{ label: 'Contact Us' }]} />
+      <Breadcrumb items={[{ label: t.pages.contact.title }]} />
 
       <div className="max-w-3xl mt-2 mb-10 md:mb-14">
         <h1 className="font-serif text-3xl md:text-4xl text-near-black">
-          Contact Us
+          {t.pages.contact.title}
         </h1>
         <p className="mt-4 font-sans text-sm leading-relaxed text-charcoal">
-          We&apos;d love to hear from you. Whether you have a question about
-          sizing, an order, or just want to say hello — we respond to every
-          message within 24 hours.
+          {t.pages.contact.description}
         </p>
       </div>
 
@@ -36,7 +36,7 @@ export default function ContactPage() {
         <div className="md:col-span-2 space-y-8">
           <div>
             <h3 className="font-sans text-xs uppercase tracking-widest text-charcoal mb-2">
-              Email
+              {t.pages.contact.email}
             </h3>
             <a
               href="mailto:hello@wildflower.com"
@@ -47,27 +47,27 @@ export default function ContactPage() {
           </div>
           <div>
             <h3 className="font-sans text-xs uppercase tracking-widest text-charcoal mb-2">
-              Hours
+              {t.pages.contact.hours}
             </h3>
             <p className="font-sans text-sm text-near-black">
-              Monday – Friday
+              {t.pages.contact.hoursValue}
               <br />
-              9:00 AM – 5:00 PM PST
+              {t.pages.contact.hoursTime}
             </p>
           </div>
           <div>
             <h3 className="font-sans text-xs uppercase tracking-widest text-charcoal mb-2">
-              Atelier
+              {t.pages.contact.atelier}
             </h3>
             <p className="font-sans text-sm text-near-black">
-              Wild Flower Studio
+              {t.pages.contact.atelierName}
               <br />
-              Arts District
+              {t.pages.contact.atelierDistrict}
               <br />
-              Los Angeles, CA
+              {t.pages.contact.atelierCity}
             </p>
             <p className="mt-2 font-sans text-xs text-charcoal/60">
-              Visits by appointment only
+              {t.pages.contact.byAppointment}
             </p>
           </div>
         </div>
@@ -77,11 +77,10 @@ export default function ContactPage() {
           {submitted ? (
             <div className="border border-near-black/15 p-8 text-center">
               <h2 className="font-serif text-xl text-near-black mb-2">
-                Message Sent
+                {t.pages.contact.messageSent}
               </h2>
               <p className="font-sans text-sm text-charcoal">
-                Thank you for reaching out. We&apos;ll get back to you within 24
-                hours.
+                {t.pages.contact.messageSentText}
               </p>
             </div>
           ) : (
@@ -89,67 +88,67 @@ export default function ContactPage() {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block font-sans text-xs uppercase tracking-widest text-charcoal mb-2">
-                    First Name
+                    {t.pages.contact.firstName}
                   </label>
                   <input
                     type="text"
                     required
-                    placeholder="Jane"
+                    placeholder={t.pages.contact.firstNamePlaceholder}
                     className={inputClass}
                   />
                 </div>
                 <div>
                   <label className="block font-sans text-xs uppercase tracking-widest text-charcoal mb-2">
-                    Last Name
+                    {t.pages.contact.lastName}
                   </label>
                   <input
                     type="text"
                     required
-                    placeholder="Doe"
+                    placeholder={t.pages.contact.lastNamePlaceholder}
                     className={inputClass}
                   />
                 </div>
               </div>
               <div>
                 <label className="block font-sans text-xs uppercase tracking-widest text-charcoal mb-2">
-                  Email
+                  {t.pages.contact.emailLabel}
                 </label>
                 <input
                   type="email"
                   required
-                  placeholder="jane@example.com"
+                  placeholder={t.pages.contact.emailPlaceholder}
                   className={inputClass}
                 />
               </div>
               <div>
                 <label className="block font-sans text-xs uppercase tracking-widest text-charcoal mb-2">
-                  Subject
+                  {t.pages.contact.subject}
                 </label>
                 <select className={inputClass} defaultValue="">
                   <option value="" disabled>
-                    Select a topic
+                    {t.pages.contact.subjectPlaceholder}
                   </option>
-                  <option>Order Inquiry</option>
-                  <option>Sizing Help</option>
-                  <option>Returns & Exchanges</option>
-                  <option>Wholesale</option>
-                  <option>Press</option>
-                  <option>Other</option>
+                  <option>{t.pages.contact.subjectOptions.orderInquiry}</option>
+                  <option>{t.pages.contact.subjectOptions.sizingHelp}</option>
+                  <option>{t.pages.contact.subjectOptions.returnsExchanges}</option>
+                  <option>{t.pages.contact.subjectOptions.wholesale}</option>
+                  <option>{t.pages.contact.subjectOptions.press}</option>
+                  <option>{t.pages.contact.subjectOptions.other}</option>
                 </select>
               </div>
               <div>
                 <label className="block font-sans text-xs uppercase tracking-widest text-charcoal mb-2">
-                  Message
+                  {t.pages.contact.message}
                 </label>
                 <textarea
                   rows={5}
                   required
-                  placeholder="How can we help?"
+                  placeholder={t.pages.contact.messagePlaceholder}
                   className={`${inputClass} resize-none`}
                 />
               </div>
               <Button type="submit" variant="primary" size="lg">
-                Send Message
+                {t.pages.contact.sendMessage}
               </Button>
             </form>
           )}

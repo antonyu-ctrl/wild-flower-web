@@ -5,6 +5,7 @@ import { cn } from '@/lib/utils';
 import { XIcon } from '@/components/icons';
 import { Button } from '@/components/ui/Button';
 import { FilterSidebar } from '@/components/filters/FilterSidebar';
+import { useLanguage } from '@/context/LanguageContext';
 import type { ProductFilters } from '@/lib/filters';
 
 interface FilterDrawerProps {
@@ -24,6 +25,8 @@ export function FilterDrawer({
   onFilterChange,
   resultCount,
 }: FilterDrawerProps) {
+  const { t } = useLanguage();
+
   // Lock body scroll when drawer is open
   useEffect(() => {
     if (isOpen) {
@@ -67,7 +70,7 @@ export function FilterDrawer({
         )}
         role="dialog"
         aria-modal="true"
-        aria-label="Product filters"
+        aria-label={t.filters.title}
       >
         {/* Handle bar */}
         <div className="flex justify-center pt-3 pb-1">
@@ -77,13 +80,13 @@ export function FilterDrawer({
         {/* Header */}
         <div className="flex items-center justify-between px-4 py-3 border-b border-near-black/10">
           <h2 className="font-sans text-sm uppercase tracking-widest text-near-black">
-            Filters
+            {t.filters.title}
           </h2>
           <button
             type="button"
             onClick={onClose}
             className="p-1 text-near-black hover:text-copper transition-colors"
-            aria-label="Close filters"
+            aria-label={t.filters.closeFilters}
           >
             <XIcon className="h-5 w-5" />
           </button>
@@ -105,7 +108,7 @@ export function FilterDrawer({
             fullWidth
             onClick={onClose}
           >
-            Show {resultCount} Result{resultCount !== 1 ? 's' : ''}
+            {t.filters.showResults.replace('{count}', String(resultCount))}
           </Button>
           {hasActiveFilters && (
             <button
@@ -113,7 +116,7 @@ export function FilterDrawer({
               onClick={handleClearAll}
               className="font-sans text-xs tracking-wide text-charcoal underline underline-offset-4 hover:text-copper transition-colors whitespace-nowrap"
             >
-              Clear All
+              {t.filters.clearAll}
             </button>
           )}
         </div>

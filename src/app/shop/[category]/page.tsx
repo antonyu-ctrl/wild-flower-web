@@ -17,6 +17,8 @@ import { getCategoryBySlug } from '@/data/categories';
 import { getProductsByCategory } from '@/data/products';
 import { filterProducts, sortProducts } from '@/lib/filters';
 import type { ProductFilters } from '@/lib/filters';
+import { useLanguage } from '@/context/LanguageContext';
+import { getCategoryName, getCategoryDescription } from '@/i18n/helpers';
 
 const ITEMS_PER_PAGE = 6;
 
@@ -32,6 +34,7 @@ function CategoryContent() {
   const params = useParams();
   const searchParams = useSearchParams();
   const router = useRouter();
+  const { t } = useLanguage();
 
   const categorySlug = params.category as string;
   const category = getCategoryBySlug(categorySlug);
@@ -148,16 +151,16 @@ function CategoryContent() {
     <Container className="py-4 md:py-6">
       {/* Breadcrumb */}
       <Breadcrumb
-        items={[{ label: category.name }]}
+        items={[{ label: getCategoryName(t, categorySlug, category.name) }]}
       />
 
       {/* Page header */}
       <div className="mt-2 mb-6 md:mb-8">
         <h1 className="font-serif text-3xl md:text-4xl text-near-black">
-          Handmade {category.name}
+          {t.common.handmade} {getCategoryName(t, categorySlug, category.name)}
         </h1>
         <p className="mt-3 font-sans text-sm leading-relaxed text-charcoal max-w-2xl">
-          {category.description}
+          {getCategoryDescription(t, categorySlug, category.description)}
         </p>
       </div>
 
@@ -169,7 +172,7 @@ function CategoryContent() {
           onClick={() => setIsFilterDrawerOpen(true)}
         >
           <FilterIcon className="h-4 w-4 mr-2" />
-          Filter
+          {t.filters.filter}
         </Button>
         <SortDropdown value={sortBy} onChange={handleSortChange} />
       </div>
@@ -192,19 +195,19 @@ function CategoryContent() {
           {/* Results bar (desktop) */}
           <div className="hidden md:flex items-center justify-between mb-6">
             <p className="font-sans text-sm text-charcoal">
-              Showing{' '}
+              {t.common.showing}{' '}
               <span className="text-near-black font-medium">
                 {sortedProducts.length}
               </span>{' '}
-              Product{sortedProducts.length !== 1 ? 's' : ''}
+              {sortedProducts.length !== 1 ? t.common.products : t.common.product}
             </p>
             <SortDropdown value={sortBy} onChange={handleSortChange} />
           </div>
 
           {/* Results count (mobile) */}
           <p className="font-sans text-xs text-charcoal mb-4 md:hidden">
-            Showing {sortedProducts.length} Product
-            {sortedProducts.length !== 1 ? 's' : ''}
+            {t.common.showing} {sortedProducts.length}{' '}
+            {sortedProducts.length !== 1 ? t.common.products : t.common.product}
           </p>
 
           {/* Product grid or empty state */}
@@ -228,10 +231,10 @@ function CategoryContent() {
           ) : (
             <div className="py-16 text-center">
               <p className="font-serif text-xl text-near-black mb-2">
-                No products found
+                {t.common.noProductsFound}
               </p>
               <p className="font-sans text-sm text-charcoal mb-6">
-                Try adjusting your filters to find what you are looking for.
+                {t.common.noProductsMessage}
               </p>
               <Button
                 variant="secondary"
@@ -240,7 +243,7 @@ function CategoryContent() {
                   handleFilterChange({ colors: [], materials: [], sizes: [] })
                 }
               >
-                Clear All Filters
+                {t.filters.clearAllFilters}
               </Button>
             </div>
           )}

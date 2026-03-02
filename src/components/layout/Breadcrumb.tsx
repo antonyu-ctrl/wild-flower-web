@@ -1,6 +1,9 @@
+'use client';
+
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { ChevronRightIcon } from '@/components/icons';
+import { useLanguage } from '@/context/LanguageContext';
 
 interface BreadcrumbItem {
   label: string;
@@ -13,7 +16,8 @@ interface BreadcrumbProps {
 }
 
 export default function Breadcrumb({ items, className }: BreadcrumbProps) {
-  const allItems: BreadcrumbItem[] = [{ label: 'Home', href: '/' }, ...items];
+  const { t } = useLanguage();
+  const allItems: BreadcrumbItem[] = [{ label: t.breadcrumb.home, href: '/' }, ...items];
 
   return (
     <nav aria-label="Breadcrumb" className={cn('py-4', className)}>

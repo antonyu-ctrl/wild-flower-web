@@ -4,6 +4,8 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useCheckout } from '@/context/CheckoutContext';
 import { useCart } from '@/context/CartContext';
+import { useLanguage } from '@/context/LanguageContext';
+import { getShippingMethodName, getShippingMethodDescription } from '@/i18n/helpers';
 import { CheckoutSteps } from '@/components/checkout/CheckoutSteps';
 import { OrderSummary } from '@/components/checkout/OrderSummary';
 import { Button } from '@/components/ui/Button';
@@ -15,6 +17,7 @@ export default function CheckoutShippingPage() {
   const router = useRouter();
   const { items, subtotal, isHydrated } = useCart();
   const { email, shippingAddress, shippingMethod, setShippingMethod } = useCheckout();
+  const { t } = useLanguage();
 
   useEffect(() => {
     if (!isHydrated) return;
@@ -44,22 +47,22 @@ export default function CheckoutShippingPage() {
           <div className="mt-8 border border-near-black/15 divide-y divide-near-black/15">
             <div className="flex items-center justify-between px-4 py-3">
               <div className="flex items-center gap-6">
-                <span className="font-sans text-xs text-charcoal/60 w-16">Contact</span>
+                <span className="font-sans text-xs text-charcoal/60 w-16">{t.checkout.contact}</span>
                 <span className="font-sans text-sm text-near-black">{email}</span>
               </div>
               <Button href="/checkout/information" variant="ghost" size="sm">
-                Change
+                {t.checkout.change}
               </Button>
             </div>
             <div className="flex items-center justify-between px-4 py-3">
               <div className="flex items-center gap-6">
-                <span className="font-sans text-xs text-charcoal/60 w-16">Ship to</span>
+                <span className="font-sans text-xs text-charcoal/60 w-16">{t.checkout.shipTo}</span>
                 <span className="font-sans text-sm text-near-black">
                   {shippingAddress.address1}, {shippingAddress.city}, {shippingAddress.state} {shippingAddress.zipCode}
                 </span>
               </div>
               <Button href="/checkout/information" variant="ghost" size="sm">
-                Change
+                {t.checkout.change}
               </Button>
             </div>
           </div>
@@ -67,7 +70,7 @@ export default function CheckoutShippingPage() {
           {/* Shipping Methods */}
           <form onSubmit={handleSubmit}>
             <section className="mt-8">
-              <h2 className="font-serif text-xl text-near-black">Shipping Method</h2>
+              <h2 className="font-serif text-xl text-near-black">{t.checkout.shippingMethod}</h2>
               <div className="mt-4 border border-near-black/15 divide-y divide-near-black/15">
                 {SHIPPING_METHODS.map((method) => {
                   const isSelected = shippingMethod.id === method.id;
@@ -91,12 +94,12 @@ export default function CheckoutShippingPage() {
                           {isSelected && <div className="w-2 h-2 rounded-full bg-copper" />}
                         </div>
                         <div>
-                          <span className="font-sans text-sm text-near-black">{method.name}</span>
-                          <span className="ml-2 font-sans text-xs text-charcoal/60">{method.description}</span>
+                          <span className="font-sans text-sm text-near-black">{getShippingMethodName(t, method.id, method.name)}</span>
+                          <span className="ml-2 font-sans text-xs text-charcoal/60">{getShippingMethodDescription(t, method.id, method.description)}</span>
                         </div>
                       </div>
                       <span className="font-sans text-sm text-near-black">
-                        {price === 0 ? 'Free' : formatPrice(price)}
+                        {price === 0 ? t.orderSummary.free : formatPrice(price)}
                       </span>
                       <input
                         type="radio"
@@ -114,10 +117,10 @@ export default function CheckoutShippingPage() {
 
             <div className="mt-8 flex items-center justify-between">
               <Button href="/checkout/information" variant="ghost" size="sm">
-                Return to information
+                {t.checkout.returnToInformation}
               </Button>
               <Button type="submit" variant="primary" size="lg">
-                Continue to Payment
+                {t.checkout.continueToPayment}
               </Button>
             </div>
           </form>

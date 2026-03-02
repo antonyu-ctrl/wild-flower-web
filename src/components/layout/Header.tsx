@@ -12,6 +12,8 @@ import {
   ChevronDownIcon,
 } from '@/components/icons';
 import { useCart } from '@/context/CartContext';
+import { useLanguage } from '@/context/LanguageContext';
+import LanguageToggle from './LanguageToggle';
 import MobileMenu from './MobileMenu';
 
 export default function Header() {
@@ -21,6 +23,7 @@ export default function Header() {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const { itemCount, openDrawer } = useCart();
+  const { t } = useLanguage();
 
   // Scroll detection
   useEffect(() => {
@@ -63,6 +66,9 @@ export default function Header() {
   const shopLink = headerNavLinks.find((link) => link.label === 'Shop');
   const otherLinks = headerNavLinks.filter((link) => link.label !== 'Shop');
 
+  const getNavLabel = (link: { label: string; i18nKey?: string }) =>
+    link.i18nKey ? (t.nav as Record<string, string>)[link.i18nKey] ?? link.label : link.label;
+
   return (
     <>
       <header
@@ -95,7 +101,7 @@ export default function Header() {
                       'text-near-black hover:text-copper transition-colors duration-200'
                     )}
                   >
-                    {shopLink.label}
+                    {getNavLabel(shopLink)}
                     <ChevronDownIcon
                       className={cn(
                         'h-3 w-3 transition-transform duration-200',
@@ -128,7 +134,7 @@ export default function Header() {
                           )}
                           onClick={() => setShopDropdownOpen(false)}
                         >
-                          {child.label}
+                          {getNavLabel(child)}
                         </Link>
                       ))}
                     </div>
@@ -146,7 +152,7 @@ export default function Header() {
                     'text-near-black hover:text-copper transition-colors duration-200'
                   )}
                 >
-                  {link.label}
+                  {getNavLabel(link)}
                 </Link>
               ))}
             </nav>
@@ -163,22 +169,23 @@ export default function Header() {
 
             {/* Right Icons */}
             <div className="flex items-center justify-end gap-5">
+              <LanguageToggle />
               <button
-                aria-label="Search"
+                aria-label={t.header.search}
                 className="text-near-black hover:text-copper transition-colors duration-200"
               >
                 <SearchIcon className="h-[18px] w-[18px]" />
               </button>
               <Link
                 href="/account"
-                aria-label="Account"
+                aria-label={t.header.account}
                 className="text-near-black hover:text-copper transition-colors duration-200"
               >
                 <UserIcon className="h-[18px] w-[18px]" />
               </Link>
               <button
                 onClick={openDrawer}
-                aria-label="Shopping bag"
+                aria-label={t.header.shoppingBag}
                 className="relative text-near-black hover:text-copper transition-colors duration-200"
               >
                 <ShoppingBagIcon className="h-[18px] w-[18px]" />
@@ -196,7 +203,7 @@ export default function Header() {
             {/* Left: Hamburger */}
             <button
               onClick={() => setMobileMenuOpen(true)}
-              aria-label="Open menu"
+              aria-label={t.header.openMenu}
               className="text-near-black hover:text-copper transition-colors duration-200 -ml-1 p-1"
             >
               <MenuIcon className="h-5 w-5" />
@@ -213,7 +220,7 @@ export default function Header() {
             {/* Right: Cart */}
             <button
               onClick={openDrawer}
-              aria-label="Shopping bag"
+              aria-label={t.header.shoppingBag}
               className="relative text-near-black hover:text-copper transition-colors duration-200 -mr-1 p-1"
             >
               <ShoppingBagIcon className="h-5 w-5" />

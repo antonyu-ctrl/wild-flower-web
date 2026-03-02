@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useCheckout } from '@/context/CheckoutContext';
 import { useCart } from '@/context/CartContext';
+import { useLanguage } from '@/context/LanguageContext';
 import { CheckoutSteps } from '@/components/checkout/CheckoutSteps';
 import { OrderSummary } from '@/components/checkout/OrderSummary';
 import { Button } from '@/components/ui/Button';
@@ -12,6 +13,7 @@ import { Container } from '@/components/ui/Container';
 export default function CheckoutInformationPage() {
   const router = useRouter();
   const { items, isHydrated } = useCart();
+  const { t } = useLanguage();
   const {
     email,
     shippingAddress,
@@ -53,15 +55,15 @@ export default function CheckoutInformationPage() {
 
   const validate = () => {
     const newErrors: Record<string, string> = {};
-    if (!form.email.trim()) newErrors.email = 'Email is required';
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) newErrors.email = 'Invalid email';
-    if (!form.firstName.trim()) newErrors.firstName = 'First name is required';
-    if (!form.lastName.trim()) newErrors.lastName = 'Last name is required';
-    if (!form.address1.trim()) newErrors.address1 = 'Address is required';
-    if (!form.city.trim()) newErrors.city = 'City is required';
-    if (!form.state.trim()) newErrors.state = 'State is required';
-    if (!form.zipCode.trim()) newErrors.zipCode = 'ZIP code is required';
-    if (!form.phone.trim()) newErrors.phone = 'Phone is required';
+    if (!form.email.trim()) newErrors.email = t.checkout.emailRequired;
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) newErrors.email = t.checkout.invalidEmail;
+    if (!form.firstName.trim()) newErrors.firstName = t.checkout.fieldRequired.replace('{field}', t.checkout.firstName);
+    if (!form.lastName.trim()) newErrors.lastName = t.checkout.fieldRequired.replace('{field}', t.checkout.lastName);
+    if (!form.address1.trim()) newErrors.address1 = t.checkout.fieldRequired.replace('{field}', t.checkout.address);
+    if (!form.city.trim()) newErrors.city = t.checkout.fieldRequired.replace('{field}', t.checkout.city);
+    if (!form.state.trim()) newErrors.state = t.checkout.fieldRequired.replace('{field}', t.checkout.state);
+    if (!form.zipCode.trim()) newErrors.zipCode = t.checkout.fieldRequired.replace('{field}', t.checkout.zipCode);
+    if (!form.phone.trim()) newErrors.phone = t.checkout.fieldRequired.replace('{field}', t.checkout.phone);
     return newErrors;
   };
 
@@ -105,11 +107,11 @@ export default function CheckoutInformationPage() {
           <form onSubmit={handleSubmit} className="mt-8">
             {/* Contact */}
             <section>
-              <h2 className="font-serif text-xl text-near-black">Contact</h2>
+              <h2 className="font-serif text-xl text-near-black">{t.checkout.contact}</h2>
               <div className="mt-4">
                 <input
                   type="email"
-                  placeholder="Email address"
+                  placeholder={t.checkout.emailAddress}
                   value={form.email}
                   onChange={(e) => updateField('email', e.target.value)}
                   className={inputClass('email')}
@@ -120,13 +122,13 @@ export default function CheckoutInformationPage() {
 
             {/* Shipping Address */}
             <section className="mt-8">
-              <h2 className="font-serif text-xl text-near-black">Shipping Address</h2>
+              <h2 className="font-serif text-xl text-near-black">{t.checkout.shippingAddress}</h2>
               <div className="mt-4 space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <input
                       type="text"
-                      placeholder="First name"
+                      placeholder={t.checkout.firstName}
                       value={form.firstName}
                       onChange={(e) => updateField('firstName', e.target.value)}
                       className={inputClass('firstName')}
@@ -136,7 +138,7 @@ export default function CheckoutInformationPage() {
                   <div>
                     <input
                       type="text"
-                      placeholder="Last name"
+                      placeholder={t.checkout.lastName}
                       value={form.lastName}
                       onChange={(e) => updateField('lastName', e.target.value)}
                       className={inputClass('lastName')}
@@ -148,7 +150,7 @@ export default function CheckoutInformationPage() {
                 <div>
                   <input
                     type="text"
-                    placeholder="Address"
+                    placeholder={t.checkout.address}
                     value={form.address1}
                     onChange={(e) => updateField('address1', e.target.value)}
                     className={inputClass('address1')}
@@ -158,7 +160,7 @@ export default function CheckoutInformationPage() {
 
                 <input
                   type="text"
-                  placeholder="Apartment, suite, etc. (optional)"
+                  placeholder={t.checkout.apartment}
                   value={form.address2}
                   onChange={(e) => updateField('address2', e.target.value)}
                   className={inputClass('address2')}
@@ -168,7 +170,7 @@ export default function CheckoutInformationPage() {
                   <div>
                     <input
                       type="text"
-                      placeholder="City"
+                      placeholder={t.checkout.city}
                       value={form.city}
                       onChange={(e) => updateField('city', e.target.value)}
                       className={inputClass('city')}
@@ -178,7 +180,7 @@ export default function CheckoutInformationPage() {
                   <div>
                     <input
                       type="text"
-                      placeholder="State"
+                      placeholder={t.checkout.state}
                       value={form.state}
                       onChange={(e) => updateField('state', e.target.value)}
                       className={inputClass('state')}
@@ -188,7 +190,7 @@ export default function CheckoutInformationPage() {
                   <div>
                     <input
                       type="text"
-                      placeholder="ZIP code"
+                      placeholder={t.checkout.zipCode}
                       value={form.zipCode}
                       onChange={(e) => updateField('zipCode', e.target.value)}
                       className={inputClass('zipCode')}
@@ -200,7 +202,7 @@ export default function CheckoutInformationPage() {
                 <div>
                   <input
                     type="tel"
-                    placeholder="Phone"
+                    placeholder={t.checkout.phone}
                     value={form.phone}
                     onChange={(e) => updateField('phone', e.target.value)}
                     className={inputClass('phone')}
@@ -212,10 +214,10 @@ export default function CheckoutInformationPage() {
 
             <div className="mt-8 flex items-center justify-between">
               <Button href="/cart" variant="ghost" size="sm">
-                Return to cart
+                {t.checkout.returnToCart}
               </Button>
               <Button type="submit" variant="primary" size="lg">
-                Continue to Shipping
+                {t.checkout.continueToShipping}
               </Button>
             </div>
           </form>

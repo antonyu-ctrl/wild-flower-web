@@ -5,6 +5,8 @@ import { cn } from '@/lib/utils';
 import { Checkbox } from '@/components/ui/Checkbox';
 import { PRODUCT_COLORS, SIZES } from '@/lib/constants';
 import { getProductsByCategory } from '@/data/products';
+import { useLanguage } from '@/context/LanguageContext';
+import { getColorName, getMaterialName } from '@/i18n/helpers';
 import type { ProductFilters } from '@/lib/filters';
 
 interface FilterSidebarProps {
@@ -20,6 +22,8 @@ export function FilterSidebar({
   onFilterChange,
   className,
 }: FilterSidebarProps) {
+  const { t } = useLanguage();
+
   // Derive available colors and materials from category products
   const categoryProducts = useMemo(
     () => getProductsByCategory(category),
@@ -76,7 +80,7 @@ export function FilterSidebar({
       {availableColors.length > 0 && (
         <div className="pb-6">
           <h3 className="font-sans text-xs uppercase tracking-widest text-near-black mb-4">
-            Color
+            {t.filters.color}
           </h3>
           <div className="space-y-3">
             {availableColors.map((color) => (
@@ -122,7 +126,7 @@ export function FilterSidebar({
                   style={{ backgroundColor: color.hex }}
                 />
                 <span className="font-sans text-sm text-near-black leading-none">
-                  {color.name}
+                  {getColorName(t, color.slug, color.name)}
                 </span>
               </label>
             ))}
@@ -136,14 +140,14 @@ export function FilterSidebar({
       {availableMaterials.length > 0 && (
         <div className="py-6">
           <h3 className="font-sans text-xs uppercase tracking-widest text-near-black mb-4">
-            Material
+            {t.filters.material}
           </h3>
           <div className="space-y-3">
             {availableMaterials.map((material) => (
               <Checkbox
                 key={material}
                 id={`material-${material}`}
-                label={material}
+                label={getMaterialName(t, material)}
                 checked={filters.materials?.includes(material) ?? false}
                 onChange={() => toggleMaterial(material)}
               />
@@ -158,7 +162,7 @@ export function FilterSidebar({
       {availableSizes.length > 0 && (
         <div className="py-6">
           <h3 className="font-sans text-xs uppercase tracking-widest text-near-black mb-4">
-            Size
+            {t.filters.size}
           </h3>
           <div className="flex flex-wrap gap-2">
             {availableSizes.map((size) => {

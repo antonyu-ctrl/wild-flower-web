@@ -11,6 +11,8 @@ import {
   InstagramIcon,
   PinterestIcon,
 } from '@/components/icons';
+import { useLanguage } from '@/context/LanguageContext';
+import LanguageToggle from './LanguageToggle';
 
 interface MobileMenuProps {
   isOpen: boolean;
@@ -21,6 +23,7 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
   const [shopExpanded, setShopExpanded] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const { t } = useLanguage();
 
   // Lock body scroll when open
   useEffect(() => {
@@ -59,6 +62,9 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
   const shopLink = headerNavLinks.find((link) => link.label === 'Shop');
   const otherLinks = headerNavLinks.filter((link) => link.label !== 'Shop');
 
+  const getNavLabel = (link: { label: string; i18nKey?: string }) =>
+    link.i18nKey ? (t.nav as Record<string, string>)[link.i18nKey] ?? link.label : link.label;
+
   return (
     <>
       {/* Overlay */}
@@ -94,7 +100,7 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
           <button
             ref={closeButtonRef}
             onClick={onClose}
-            aria-label="Close menu"
+            aria-label={t.header.closeMenu}
             className="text-near-black hover:text-copper transition-colors duration-200 -mr-1 p-1"
           >
             <XIcon className="h-5 w-5" />
@@ -113,15 +119,15 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                     onClick={onClose}
                     className="font-serif text-2xl text-near-black hover:text-copper transition-colors duration-200 py-3"
                   >
-                    {shopLink.label}
+                    {getNavLabel(shopLink)}
                   </Link>
                   {shopLink.children && (
                     <button
                       onClick={() => setShopExpanded((prev) => !prev)}
                       aria-label={
                         shopExpanded
-                          ? 'Collapse shop categories'
-                          : 'Expand shop categories'
+                          ? t.header.collapseShopCategories
+                          : t.header.expandShopCategories
                       }
                       className="p-2 text-charcoal hover:text-copper transition-colors duration-200"
                     >
@@ -154,7 +160,7 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                             'hover:text-copper transition-colors duration-200'
                           )}
                         >
-                          {child.label}
+                          {getNavLabel(child)}
                         </Link>
                       </li>
                     ))}
@@ -171,15 +177,18 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                   onClick={onClose}
                   className="block font-serif text-2xl text-near-black hover:text-copper transition-colors duration-200 py-3"
                 >
-                  {link.label}
+                  {getNavLabel(link)}
                 </Link>
               </li>
             ))}
           </ul>
         </nav>
 
-        {/* Bottom: Social & Copyright */}
+        {/* Bottom: Language Toggle, Social & Copyright */}
         <div className="px-6 py-6 border-t border-near-black/10">
+          <div className="mb-4">
+            <LanguageToggle />
+          </div>
           <div className="flex items-center gap-4 mb-4">
             <a
               href="https://instagram.com"
@@ -201,7 +210,7 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
             </a>
           </div>
           <p className="text-xs text-charcoal/60 font-sans">
-            &copy; {new Date().getFullYear()} {SITE_NAME}. All rights reserved.
+            &copy; {new Date().getFullYear()} {SITE_NAME}. {t.footer.allRightsReserved}
           </p>
         </div>
       </div>

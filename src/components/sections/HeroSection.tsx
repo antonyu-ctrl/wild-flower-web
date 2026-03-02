@@ -1,7 +1,11 @@
+'use client';
+
 import Image from 'next/image';
-import { SITE_TAGLINE } from '@/lib/constants';
+import { useLanguage } from '@/context/LanguageContext';
 
 export function HeroSection() {
+  const { t } = useLanguage();
+
   return (
     <section className="pt-14 pb-16 md:pt-20 md:pb-24 lg:pt-28 lg:pb-32">
       <div className="flex flex-col items-center text-center animate-[fadeIn_1.2s_ease-out]">
@@ -16,7 +20,7 @@ export function HeroSection() {
         </div>
 
         <p className="mt-6 font-sans text-xs tracking-[0.3em] uppercase text-charcoal">
-          {SITE_TAGLINE.toUpperCase()}
+          {t.site.tagline.toUpperCase()}
         </p>
       </div>
     </section>

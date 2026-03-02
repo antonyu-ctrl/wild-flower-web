@@ -1,12 +1,9 @@
+'use client';
+
 import { Container } from '@/components/ui/Container';
 import Breadcrumb from '@/components/layout/Breadcrumb';
 import { Button } from '@/components/ui/Button';
-
-export const metadata = {
-  title: 'Gift Cards — Wild Flower',
-  description:
-    'Give the gift of handmade fashion. Wild Flower gift cards are delivered instantly by email.',
-};
+import { useLanguage } from '@/context/LanguageContext';
 
 const giftCardAmounts = [
   { value: 5000, label: '$50' },
@@ -16,17 +13,18 @@ const giftCardAmounts = [
 ];
 
 export default function GiftCardsPage() {
+  const { t } = useLanguage();
+
   return (
     <Container className="py-4 md:py-6">
-      <Breadcrumb items={[{ label: 'Gift Cards' }]} />
+      <Breadcrumb items={[{ label: t.pages.giftCards.title }]} />
 
       <div className="max-w-2xl mx-auto text-center mt-2 mb-10 md:mb-14">
         <h1 className="font-serif text-3xl md:text-4xl text-near-black">
-          Gift Cards
+          {t.pages.giftCards.title}
         </h1>
         <p className="mt-4 font-sans text-sm leading-relaxed text-charcoal">
-          Not sure what to choose? Let them pick their own handmade treasure.
-          Our gift cards are delivered instantly by email and never expire.
+          {t.pages.giftCards.description}
         </p>
       </div>
 
@@ -41,7 +39,7 @@ export default function GiftCardsPage() {
                 {card.label}
               </span>
               <p className="mt-1 font-sans text-xs text-charcoal/60">
-                Gift Card
+                {t.pages.giftCards.giftCard}
               </p>
             </div>
           ))}
@@ -50,30 +48,29 @@ export default function GiftCardsPage() {
         <div className="border border-near-black/15 p-6 md:p-8 space-y-4">
           <div>
             <label className="block font-sans text-xs uppercase tracking-widest text-charcoal mb-2">
-              Recipient&apos;s Email
+              {t.pages.giftCards.recipientEmail}
             </label>
             <input
               type="email"
-              placeholder="friend@example.com"
+              placeholder={t.pages.giftCards.recipientPlaceholder}
               className="w-full bg-cream font-sans text-sm text-near-black placeholder:text-charcoal/40 border border-near-black/20 px-3 py-3 focus:border-copper focus:outline-none focus:ring-0"
             />
           </div>
           <div>
             <label className="block font-sans text-xs uppercase tracking-widest text-charcoal mb-2">
-              Personal Message (optional)
+              {t.pages.giftCards.personalMessage}
             </label>
             <textarea
               rows={3}
-              placeholder="Add a note..."
+              placeholder={t.pages.giftCards.messagePlaceholder}
               className="w-full bg-cream font-sans text-sm text-near-black placeholder:text-charcoal/40 border border-near-black/20 px-3 py-3 focus:border-copper focus:outline-none focus:ring-0 resize-none"
             />
           </div>
           <Button variant="primary" size="lg" fullWidth disabled>
-            Coming Soon
+            {t.pages.giftCards.comingSoon}
           </Button>
           <p className="font-sans text-xs text-charcoal/60 text-center">
-            Gift cards will be available soon. Sign up for our newsletter to be
-            notified.
+            {t.pages.giftCards.comingSoonText}
           </p>
         </div>
       </div>

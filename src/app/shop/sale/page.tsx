@@ -10,6 +10,7 @@ import { Pagination } from '@/components/ui/Pagination';
 import { SortDropdown } from '@/components/filters/SortDropdown';
 import { getSaleProducts } from '@/data/products';
 import { sortProducts } from '@/lib/filters';
+import { useLanguage } from '@/context/LanguageContext';
 
 const ITEMS_PER_PAGE = 9;
 
@@ -24,6 +25,7 @@ export default function SalePage() {
 function SaleContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
+  const { t } = useLanguage();
 
   const sortBy = searchParams.get('sort') ?? 'newest';
   const currentPage = Number(searchParams.get('page') ?? '1');
@@ -84,25 +86,24 @@ function SaleContent() {
 
   return (
     <Container className="py-4 md:py-6">
-      <Breadcrumb items={[{ label: 'Sale' }]} />
+      <Breadcrumb items={[{ label: t.pages.sale.title }]} />
 
       <div className="mt-2 mb-6 md:mb-8">
         <h1 className="font-serif text-3xl md:text-4xl text-near-black">
-          Sale
+          {t.pages.sale.title}
         </h1>
         <p className="mt-3 font-sans text-sm leading-relaxed text-charcoal max-w-2xl">
-          Thoughtfully crafted pieces at special prices. The same artisan
-          quality, now more accessible.
+          {t.pages.sale.description}
         </p>
       </div>
 
       <div className="flex items-center justify-between mb-6">
         <p className="font-sans text-sm text-charcoal">
-          Showing{' '}
+          {t.common.showing}{' '}
           <span className="text-near-black font-medium">
             {sortedProducts.length}
           </span>{' '}
-          Product{sortedProducts.length !== 1 ? 's' : ''}
+          {sortedProducts.length !== 1 ? t.common.products : t.common.product}
         </p>
         <SortDropdown value={sortBy} onChange={handleSortChange} />
       </div>
@@ -127,10 +128,10 @@ function SaleContent() {
       ) : (
         <div className="py-16 text-center">
           <p className="font-serif text-xl text-near-black mb-2">
-            No sale items right now
+            {t.pages.sale.emptyTitle}
           </p>
           <p className="font-sans text-sm text-charcoal">
-            Check back soon — we update our sale selection regularly.
+            {t.pages.sale.emptyMessage}
           </p>
         </div>
       )}

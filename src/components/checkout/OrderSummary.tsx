@@ -4,6 +4,8 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { useCart } from '@/context/CartContext';
 import { useCheckout } from '@/context/CheckoutContext';
+import { useLanguage } from '@/context/LanguageContext';
+import { getProductName, getColorName } from '@/i18n/helpers';
 import { products } from '@/data/products';
 import { formatPrice, cn } from '@/lib/utils';
 import { FREE_SHIPPING_THRESHOLD } from '@/lib/constants';
@@ -12,6 +14,7 @@ import { ChevronDownIcon } from '@/components/icons';
 export function OrderSummary() {
   const { items, subtotal, itemCount } = useCart();
   const { shippingMethod } = useCheckout();
+  const { t } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
 
   const shippingCost = subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : shippingMethod.price;
@@ -26,7 +29,7 @@ export function OrderSummary() {
         className="lg:hidden w-full flex items-center justify-between"
       >
         <span className="font-sans text-sm text-copper">
-          {isOpen ? 'Hide' : 'Show'} order summary ({itemCount} {itemCount === 1 ? 'item' : 'items'})
+          {isOpen ? t.orderSummary.hide : t.orderSummary.show} ({itemCount} {itemCount === 1 ? t.cart.item : t.cart.items})
         </span>
         <div className="flex items-center gap-2">
           <span className="font-serif text-lg text-near-black">{formatPrice(total)}</span>
@@ -49,7 +52,7 @@ export function OrderSummary() {
                   {image && (
                     <Image
                       src={image.src}
-                      alt={product.name}
+                      alt={getProductName(t, product)}
                       fill
                       className="object-cover"
                       sizes="56px"
@@ -60,9 +63,9 @@ export function OrderSummary() {
                   </div>
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="font-sans text-sm text-near-black truncate">{product.name}</p>
+                  <p className="font-sans text-sm text-near-black truncate">{getProductName(t, product)}</p>
                   <p className="font-sans text-xs text-charcoal/60">
-                    {color?.name} / {item.size}
+                    {color ? getColorName(t, color.slug, color.name) : ''} / {item.size}
                   </p>
                 </div>
                 <span className="font-sans text-sm text-near-black flex-shrink-0">
@@ -75,23 +78,23 @@ export function OrderSummary() {
 
         <div className="mt-6 pt-4 border-t border-near-black/10 space-y-2">
           <div className="flex justify-between font-sans text-sm">
-            <span className="text-charcoal">Subtotal</span>
+            <span className="text-charcoal">{t.orderSummary.subtotal}</span>
             <span className="text-near-black">{formatPrice(subtotal)}</span>
           </div>
           <div className="flex justify-between font-sans text-sm">
-            <span className="text-charcoal">Shipping</span>
+            <span className="text-charcoal">{t.orderSummary.shipping}</span>
             <span className="text-near-black">
-              {shippingCost === 0 ? 'Free' : formatPrice(shippingCost)}
+              {shippingCost === 0 ? t.orderSummary.free : formatPrice(shippingCost)}
             </span>
           </div>
           <div className="flex justify-between font-sans text-sm">
-            <span className="text-charcoal">Tax</span>
+            <span className="text-charcoal">{t.orderSummary.tax}</span>
             <span className="text-near-black">{formatPrice(tax)}</span>
           </div>
         </div>
 
         <div className="mt-4 pt-4 border-t border-near-black/10 flex justify-between">
-          <span className="font-serif text-lg text-near-black">Total</span>
+          <span className="font-serif text-lg text-near-black">{t.orderSummary.total}</span>
           <span className="font-serif text-lg text-near-black">{formatPrice(total)}</span>
         </div>
       </div>
