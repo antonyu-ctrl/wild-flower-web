@@ -18,21 +18,21 @@ export const categories: Category[] = [
     slug: 'shoes',
     description:
       'Handcrafted footwear made from vegetable-tanned leather and natural materials. Designed for everyday comfort with artisan detail.',
-    image: '/products/placeholder.jpg',
+    image: '/products/shoes3.png',
   },
   {
     name: 'Bags',
     slug: 'bags',
     description:
       'Hand-woven and hand-stitched bags using sustainably sourced materials. Functional beauty for every occasion.',
-    image: '/products/placeholder.jpg',
+    image: '/products/bag2.png',
   },
   {
     name: 'Accessories',
     slug: 'accessories',
     description:
       'Delicate handcrafted jewelry and accessories made from ethically sourced metals, natural stones, and artisan clay.',
-    image: '/products/placeholder.jpg',
+    image: '/products/accessories4.png',
   },
 ];
 

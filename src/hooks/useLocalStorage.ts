@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 
-export function useLocalStorage<T>(key: string, initialValue: T): [T, (value: T | ((prev: T) => T)) => void] {
+export function useLocalStorage<T>(key: string, initialValue: T): [T, (value: T | ((prev: T) => T)) => void, boolean] {
   // Always start with initialValue for SSR safety
   const [storedValue, setStoredValue] = useState<T>(initialValue);
   const [isHydrated, setIsHydrated] = useState(false);
@@ -37,5 +37,5 @@ export function useLocalStorage<T>(key: string, initialValue: T): [T, (value: T 
     });
   }, []);
 
-  return [storedValue, setValue];
+  return [storedValue, setValue, isHydrated];
 }

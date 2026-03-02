@@ -14,6 +14,7 @@ import { MAX_CART_QUANTITY } from '@/lib/constants';
 
 interface CartContextValue {
   items: CartItem[];
+  isHydrated: boolean;
   isDrawerOpen: boolean;
   itemCount: number;
   subtotal: number;
@@ -28,7 +29,7 @@ interface CartContextValue {
 const CartContext = createContext<CartContextValue | null>(null);
 
 export function CartProvider({ children }: { children: ReactNode }) {
-  const [items, setItems] = useLocalStorage<CartItem[]>('wild-flower-cart', []);
+  const [items, setItems, isHydrated] = useLocalStorage<CartItem[]>('wild-flower-cart', []);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const addItem = useCallback(
@@ -104,6 +105,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const value = useMemo<CartContextValue>(
     () => ({
       items,
+      isHydrated,
       isDrawerOpen,
       itemCount,
       subtotal,
@@ -116,6 +118,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
     }),
     [
       items,
+      isHydrated,
       isDrawerOpen,
       itemCount,
       subtotal,
