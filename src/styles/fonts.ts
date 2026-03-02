@@ -20,6 +20,6 @@ export const nanumKimYuYi = localFont({
   variable: '--font-korean',
   display: 'swap',
   declarations: [
-    { prop: 'size-adjust', value: '130%' },
+    { prop: 'size-adjust', value: '150%' },
   ],
 });
