@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { cormorant, inter } from '@/styles/fonts';
+import { cormorant, inter, nanumKimYuYi } from '@/styles/fonts';
 import { CartProvider } from '@/context/CartContext';
 import { LanguageProvider } from '@/context/LanguageContext';
 import HtmlLangUpdater from '@/components/layout/HtmlLangUpdater';
@@ -24,7 +24,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${cormorant.variable} ${inter.variable}`}>
+      <body className={`${cormorant.variable} ${inter.variable} ${nanumKimYuYi.variable}`}>
         <LanguageProvider>
           <CartProvider>
             <HtmlLangUpdater />

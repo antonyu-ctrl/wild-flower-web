@@ -35,6 +35,12 @@
   }
 }
 
+/* Korean font override — outside @layer so it beats Tailwind utilities */
+html[lang="ko"] body {
+  --font-serif: var(--font-korean), Georgia, 'Times New Roman', serif;
+  --font-sans: var(--font-korean), system-ui, -apple-system, sans-serif;
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;
