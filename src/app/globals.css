@@ -1,0 +1,53 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-cream: #F8F6EA;
+  --color-cream-dark: #F0EDDF;
+  --color-copper: #C4956A;
+  --color-copper-light: #D4AD8A;
+  --color-copper-dark: #A67B52;
+  --color-sage: #8B9A7B;
+  --color-sage-light: #A8B59C;
+  --color-terracotta: #C67D5B;
+  --color-charcoal: #3A3A3A;
+  --color-near-black: #1A1A1A;
+
+  --font-serif: var(--font-cormorant), Georgia, 'Times New Roman', serif;
+  --font-sans: var(--font-inter), system-ui, -apple-system, sans-serif;
+}
+
+@layer base {
+  body {
+    background-color: var(--color-cream);
+    color: var(--color-near-black);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-serif);
+  }
+
+  ::selection {
+    background-color: var(--color-copper-light);
+    color: var(--color-near-black);
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
